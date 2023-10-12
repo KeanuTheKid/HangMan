@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Design;
+using System.Security.Principal;
 
 namespace HangMan; // here use name of your project
 
@@ -13,7 +15,7 @@ class Program
         {
             // Variable declarations allowed here
            
-            int lifes = 6;
+            int lifes = 5;
             string? guessed = null;
             string? missed = null;
             string SecretWord = ReadSecretWord();            // Player 1: Enter the secret word to be guessed by player 2
@@ -23,12 +25,12 @@ class Program
             {
                SecretWord_Invisible = SecretWord_Invisible + "_";
             }
-            HangTheMan();                // Screen output for a good start
+            HangTheMan(ref SecretWord_Invisible, ref lifes, ref guessed, ref missed, ref SecretWord);                // Screen output for a good start
             while (true)                 // Player 2: Make your guesses
             {
                 string newChar = ReadOneChar();           // Handle input of one char. 
                 EvaluateTheSituation(SecretWord,newChar, ref lifes, ref guessed, ref missed, ref SecretWord_Invisible, ref stop);  // Game Logic goes here
-                HangTheMan();            // Screen output goes here
+                HangTheMan(ref SecretWord_Invisible, ref lifes, ref guessed, ref missed, ref SecretWord);            // Screen output goes here
                 if (stop == 1)
                 {
                     break;
@@ -127,7 +129,6 @@ class Program
             {
             lifes--;
             Console.WriteLine("not contained");
-            Console.WriteLine(lifes);   //test
             missed = missed+newChar; 
            
             }
@@ -149,7 +150,6 @@ class Program
             if(lifes <= 0)
         {
             stop = 1;
-            Console.WriteLine("game over");
         }
         if (SecretWord == SecretWord_Invisible)
             {
@@ -164,11 +164,106 @@ class Program
 
 
 
-    static void HangTheMan() // Modification of method declaration recommended: Add return value and parameters
+    static void HangTheMan(ref string SecretWord_Invisible, ref int lifes, ref string guessed, ref string missed, ref string SecretWord) // Modification of method declaration recommended: Add return value and parameters
                              // In here, clear the screen and redraw everything reflecting the actual game status
     {
-        // Variable declarations allowed here
-        // all Console.Write() etc. go here
+        string? heart_1 = @"
+    ,d88b.d88b,    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
+   888888888888    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
+    `Y8888888Y'    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
+      `Y888Y'      XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
+        `Y'        XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
+";
+        string?  heart_2= @"
+    ,d88b.d88b,     ,d88b.d88b,    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   
+   88888888888     888888888888    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX
+    `Y8888888Y'     `Y8888888Y'    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX
+      `Y888Y'         `Y888Y'      XXXXXXXXX    XXXXXXXXX   XXXXXXXXX
+        `Y'             `Y'        XXXXXXXXX    XXXXXXXXX   XXXXXXXXX
+";
+        string? heart_3 = @"
+    ,d88b.d88b,     ,d88b.d88b,     ,d88b.d88b,     XXXXXXXXX   XXXXXXXXX
+   88888888888     888888888888    888888888888     XXXXXXXXX   XXXXXXXXX
+    `Y8888888Y'     `Y8888888Y'     `Y8888888Y'     XXXXXXXXX   XXXXXXXXX
+      `Y888Y'         `Y888Y'         `Y888Y'       XXXXXXXXX   XXXXXXXXX
+        `Y'             `Y'             `Y'         XXXXXXXXX   XXXXXXXXX
+";
+        string? heart_4 = @"
+    ,d88b.d88b,     ,d88b.d88b,     ,d88b.d88b,     ,d88b.d88b,     XXXXXXXXX
+   88888888888     888888888888    888888888888     888888888888    XXXXXXXXX
+    `Y8888888Y'     `Y8888888Y'     `Y8888888Y'     `Y8888888Y'     XXXXXXXXX
+      `Y888Y'         `Y888Y'         `Y888Y'         `Y888Y'       XXXXXXXXX
+        `Y'             `Y'             `Y'             `Y'         XXXXXXXXX
+";
+        string? heart_5 = @"
+    ,d88b.d88b,     ,d88b.d88b,     ,d88b.d88b,     ,d88b.d88b,       ,d88b.d88b,
+   88888888888     888888888888    888888888888     888888888888     888888888888
+    `Y8888888Y'     `Y8888888Y'     `Y8888888Y'     `Y8888888Y'       `Y8888888Y'
+      `Y888Y'         `Y888Y'         `Y888Y'         `Y888Y'           `Y888Y'
+        `Y'             `Y'             `Y'             `Y'               `Y'
+";
+        string? heart_0 = @"
+    G A M E   O V E R
+";
+
+        if (lifes == 5)
+        {
+            Console.Clear();
+            Console.WriteLine("secret word:");
+            Console.WriteLine(SecretWord_Invisible);
+            Console.WriteLine(missed);
+            Console.WriteLine(heart_5);
+        }
+        else if (lifes ==4)
+        {
+            Console.Clear();
+            Console.WriteLine("secret word:");
+            Console.WriteLine(SecretWord_Invisible);
+            Console.WriteLine("missed:");
+            Console.WriteLine(missed);
+            Console.WriteLine(heart_4);
+        }
+        else if (lifes == 3)
+        {
+            Console.Clear();
+            Console.WriteLine("secret word:");
+            Console.WriteLine(SecretWord_Invisible);
+            Console.WriteLine("missed:");
+            Console.WriteLine(missed);
+            Console.WriteLine(heart_3);
+        }
+        else if (lifes == 2)
+        {
+            Console.Clear();
+            Console.WriteLine("secret word:");
+            Console.WriteLine(SecretWord_Invisible);
+            Console.WriteLine("missed:");
+            Console.WriteLine(missed);
+            Console.WriteLine(heart_2);
+        }
+        else if (lifes == 1)
+        {
+            Console.Clear();
+            Console.WriteLine("secret word:");
+            Console.WriteLine(SecretWord_Invisible);
+            Console.WriteLine("missed:");
+            Console.WriteLine(missed);
+            Console.WriteLine(heart_1);
+        }
+        else if (lifes == 0)
+        {
+            Console.Clear();
+            Console.WriteLine("missed:");
+            Console.WriteLine(missed);
+            Console.WriteLine(SecretWord);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine(heart_0);
+            }
+        }
+        
+
     }
     static void QuitOrRestart() // Modification of method declaration recommended: Add return value and parameters
                                 // If there are rules and constraints on allowed secrets (e.g. no digits), check them in here
