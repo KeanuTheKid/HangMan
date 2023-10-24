@@ -135,8 +135,8 @@ class Program
             {
             lifes--;
             Console.WriteLine("not contained");
-            missed = missed+newChar; 
-           
+            missed = missed+newChar;
+            missed = String.Concat(missed.OrderBy(c => c));
             }
             else
             {
