@@ -21,7 +21,7 @@ class Program
             string SecretWord = ReadSecretWord();            // Player 1: Enter the secret word to be guessed by player 2
             string SecretWord_Invisible = MakeInvisible(ref SecretWord);
             int stop = 0;
-            
+
             HangTheMan(ref SecretWord_Invisible, ref lifes, ref guessed, ref missed, ref SecretWord);                // Screen output for a good start
             while (true)                 // Player 2: Make your guesses
             {
@@ -95,7 +95,7 @@ class Program
             {
                 isValid = false;
                 Console.WriteLine("Please enter only one character");
-                
+
             }
             else
             {
@@ -122,26 +122,26 @@ class Program
     }
 
     static void EvaluateTheSituation(string SecretWord, string newChar, ref int lifes, ref string guessed, ref string missed, ref string SecretWord_Invisible, ref int stop) // Modification of method declaration recommended: Add return value and parameters
-                                       // In here, evaluate the char entered: Is it part of the secret word?
-                                       // Calculate and return the game status (Hit or missed? Where? List and number of missed chars?...)
+                                                                                                                                                                             // In here, evaluate the char entered: Is it part of the secret word?
+                                                                                                                                                                             // Calculate and return the game status (Hit or missed? Where? List and number of missed chars?...)
     {
-        
+
         char[] secretWordArray = SecretWord.ToCharArray();
         char[] secretWordInvisibleArray = SecretWord_Invisible.ToCharArray();
 
         // Variable declarations allowed here
 
         if (!SecretWord.Contains(newChar))
-            {
+        {
             lifes--;
             Console.WriteLine("not contained");
             missed = missed+newChar;
             missed = String.Concat(missed.OrderBy(c => c));
-            }
-            else
-            {
-                Console.WriteLine("contained");
-                guessed = guessed+newChar; 
+        }
+        else
+        {
+            Console.WriteLine("contained");
+            guessed = guessed+newChar;
             for (int i = 0; i < secretWordArray.Length; i++)
             {
                 if (secretWordArray[i].ToString() == newChar)
@@ -152,26 +152,21 @@ class Program
             SecretWord_Invisible = new string(secretWordInvisibleArray);
             Console.WriteLine(SecretWord_Invisible); //test
         }
-            
-            if(lifes <= 0)
+
+        if (lifes <= 0)
         {
             stop = 1;
         }
         if (SecretWord == SecretWord_Invisible)
-            {
+        {
             stop = 1;
             Console.WriteLine("Good Job!");
         }
-
-
-
         // NO Console.Write() etc. in here!
     }
 
-
-
     static void HangTheMan(ref string SecretWord_Invisible, ref int lifes, ref string guessed, ref string missed, ref string SecretWord) // Modification of method declaration recommended: Add return value and parameters
-                             // In here, clear the screen and redraw everything reflecting the actual game status
+                                                                                                                                         // In here, clear the screen and redraw everything reflecting the actual game status
     {
         string? heart_1 = @"
     ,d88b.d88b,    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
@@ -180,7 +175,7 @@ class Program
       `Y888Y'      XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
         `Y'        XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   XXXXXXXXX   XXXXXXXXX
 ";
-        string?  heart_2= @"
+        string? heart_2 = @"
     ,d88b.d88b,     ,d88b.d88b,    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX   
    88888888888     888888888888    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX
     `Y8888888Y'     `Y8888888Y'    XXXXXXXXX    XXXXXXXXX   XXXXXXXXX
@@ -241,7 +236,7 @@ class Program
             Console.Clear();
             Console.WriteLine("missed:");
             Console.WriteLine(missed);
-            Console.WriteLine("secret word:");  
+            Console.WriteLine("secret word:");
             Console.WriteLine(SecretWord);
 
             for (int i = 0; i < 5; i++)
@@ -249,14 +244,12 @@ class Program
                 Console.WriteLine(heart_0);
             }
         }
-        
-
     }
     static void QuitOrRestart() // Modification of method declaration recommended: Add return value and parameters
                                 // If there are rules and constraints on allowed secrets (e.g. no digits), check them in here
     {
         Char[] validNUM = { '1', '2' };
-  
+
         foreach (char c in validNUM)
         {
             if (validNUM.Contains(c))
@@ -284,11 +277,5 @@ class Program
             }
         }
 
-
-
-        // Variable declarations allowed here
-        // Console.Write() etc. allowed here!
     }
-
-    
 }
