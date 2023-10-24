@@ -10,26 +10,23 @@ class Program
     static void Main(string[] args)
     {
         // Variable declarations allowed here
-        
+
         while (true)                     // The game repeats until finished by player 1
         {
             // Variable declarations allowed here
-           
+
             int lifes = 5;
-            string? guessed = null;
-            string? missed = null;
+            string? guessed = null; //list of guessed Characters
+            string? missed = null; //list of wrong characters
             string SecretWord = ReadSecretWord();            // Player 1: Enter the secret word to be guessed by player 2
-            string? SecretWord_Invisible = null;
+            string SecretWord_Invisible = MakeInvisible(ref SecretWord);
             int stop = 0;
-            for (int i = 0; i < SecretWord.Length; i++)
-            {
-               SecretWord_Invisible = SecretWord_Invisible + "_";
-            }
+            
             HangTheMan(ref SecretWord_Invisible, ref lifes, ref guessed, ref missed, ref SecretWord);                // Screen output for a good start
             while (true)                 // Player 2: Make your guesses
             {
                 string newChar = ReadOneChar();           // Handle input of one char. 
-                EvaluateTheSituation(SecretWord,newChar, ref lifes, ref guessed, ref missed, ref SecretWord_Invisible, ref stop);  // Game Logic goes here
+                EvaluateTheSituation(SecretWord, newChar, ref lifes, ref guessed, ref missed, ref SecretWord_Invisible, ref stop);  // Game Logic goes here
                 HangTheMan(ref SecretWord_Invisible, ref lifes, ref guessed, ref missed, ref SecretWord);            // Screen output goes here
                 if (stop == 1)
                 {
@@ -70,6 +67,15 @@ class Program
             }
         }
     }
+    static string MakeInvisible(ref string SecretWord)
+    {
+        string? SecretWord_Invisible = null;
+        for (int i = 0; i < SecretWord.Length; i++)
+        {
+            SecretWord_Invisible = SecretWord_Invisible + "_";
+        }
+        return SecretWord_Invisible;
+    }
 
     static string ReadOneChar() // Modification of method declaration recommended: Add return value and parameters
                                 // If there are rules and constraints on allowed secrets (e.g. no digits), make sure the input is allowed
@@ -81,11 +87,11 @@ class Program
         {
 
             Console.Write("Enter Char:");
-            string Char = Console.ReadLine();
-            Char = Char.ToUpper();
+            string USERChar = Console.ReadLine();
+            USERChar = USERChar.ToUpper();
             bool isValid = true;
 
-            if (Char.Length != 1)
+            if (USERChar.Length != 1)
             {
                 isValid = false;
                 Console.WriteLine("Please enter only one character");
@@ -93,7 +99,7 @@ class Program
             }
             else
             {
-                foreach (char c in Char)
+                foreach (char c in USERChar)
                 {
                     if (!alphabet.Contains(c))
                     {
@@ -103,7 +109,7 @@ class Program
                 }
                 if (isValid)
                 {
-                    return Char;
+                    return USERChar;
                 }
                 else
                 {
@@ -205,49 +211,29 @@ class Program
         string? heart_0 = @"
     G A M E   O V E R
 ";
-
+        Console.Clear();
+        Console.WriteLine("secret word:");
+        Console.WriteLine(SecretWord_Invisible);
+        Console.WriteLine("missed:");
+        Console.WriteLine(missed);
         if (lifes == 5)
         {
-            Console.Clear();
-            Console.WriteLine("secret word:");
-            Console.WriteLine(SecretWord_Invisible);
-            Console.WriteLine(missed);
             Console.WriteLine(heart_5);
         }
         else if (lifes ==4)
         {
-            Console.Clear();
-            Console.WriteLine("secret word:");
-            Console.WriteLine(SecretWord_Invisible);
-            Console.WriteLine("missed:");
-            Console.WriteLine(missed);
             Console.WriteLine(heart_4);
         }
         else if (lifes == 3)
         {
-            Console.Clear();
-            Console.WriteLine("secret word:");
-            Console.WriteLine(SecretWord_Invisible);
-            Console.WriteLine("missed:");
-            Console.WriteLine(missed);
             Console.WriteLine(heart_3);
         }
         else if (lifes == 2)
         {
-            Console.Clear();
-            Console.WriteLine("secret word:");
-            Console.WriteLine(SecretWord_Invisible);
-            Console.WriteLine("missed:");
-            Console.WriteLine(missed);
             Console.WriteLine(heart_2);
         }
         else if (lifes == 1)
         {
-            Console.Clear();
-            Console.WriteLine("secret word:");
-            Console.WriteLine(SecretWord_Invisible);
-            Console.WriteLine("missed:");
-            Console.WriteLine(missed);
             Console.WriteLine(heart_1);
         }
         else if (lifes == 0)
@@ -255,6 +241,7 @@ class Program
             Console.Clear();
             Console.WriteLine("missed:");
             Console.WriteLine(missed);
+            Console.WriteLine("secret word:");  
             Console.WriteLine(SecretWord);
 
             for (int i = 0; i < 5; i++)
