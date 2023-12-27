@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="C:\Users\keanu\OneDrive - Kantonsschule Romanshorn\schule\informatik\EF\C#\QUIZ.cs" Link="QUIZ.cs" />
+  </ItemGroup>
+
+</Project>
